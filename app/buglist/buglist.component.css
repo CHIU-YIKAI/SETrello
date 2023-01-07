@@ -1,0 +1,38 @@
+.mainTable {
+  width: 95%;
+  font-family: 'Comic Sans MS', serif;
+  font-size: 24px;
+  word-wrap: break-word;
+  table-layout: fixed;
+}
+
+.mainTable td {
+  padding: 0 10px 10px 10px;
+  text-align: left;
+}
+mat-checkbox {
+  margin-right: 25px;
+  font-family: 'Comic Sans MS', serif;
+}
+
+mat-checkbox:last-child {
+  margin-right: 0;
+}
+
+/*/deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {*/
+/*  opacity: 0.03 !important;*/
+/*  background-color: #66FFE6 !important;*/
+/*}*/
+
+/*/deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {*/
+/*  background-color: #66FFE6;*/
+/*}*/
+
+/*/deep/ .mat-checkbox-checked.mat-warn .mat-checkbox-ripple .mat-ripple-element {*/
+/*  opacity: 0.03 !important;*/
+/*  background-color: #00FFFF !important;*/
+/*}*/
+
+/*/deep/ .mat-checkbox-checked.mat-warn .mat-checkbox-background,.mat-checkbox-indeterminate.mat-warn .mat-checkbox-background {*/
+/*  background-color: #00FFFF;*/
+/*}*/

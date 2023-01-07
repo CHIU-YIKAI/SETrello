@@ -1,0 +1,67 @@
+<meta charset="UTF-8" />
+<div style="margin-bottom: 15px">
+  <div class="ToggleFont">Choose Issue:</div>
+  <div class="SlideToggle">
+    <mat-slide-toggle [(ngModel)]="slideToggleChecked" [color]= "slideToggleColor" [checked]= "slideToggleChecked" (change)="changed()">
+      <ng-container *ngIf="slideToggleChecked">
+        <b style="color: #FF1493">{{toggleState | uppercase}}</b>
+      </ng-container>
+      <ng-container *ngIf="!slideToggleChecked">
+        <b style="color: #808080">{{toggleState | uppercase}}</b>
+      </ng-container>
+    </mat-slide-toggle>
+  </div>
+  <ng-container *ngIf="!slideToggleChecked">
+    <span style="margin-left: 80px; font-family: 'Comic Sans MS', serif; font-size: 20px;">Average Lead Time: <span style="color: #A52A2A;">{{averageLeadTime}}</span></span>
+  </ng-container>
+</div>
+<div>
+  <mat-accordion class="example-headers-align">
+    <ng-container *ngFor="let title of titles ; let i = index">
+      <ng-container *ngIf="States[i] == toggleState">
+        <mat-expansion-panel class="mainPanel" hideToggle>
+          <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+            <mat-panel-title>
+              <div>
+                <img [src]="avatars[i]" height="45" class="personal-avatar">
+                {{posters[i]}}
+              </div>
+            </mat-panel-title>
+
+            <mat-panel-description>
+              <tr style="width: 100%">
+                <p style="width: 90%; word-wrap: break-word;">{{title}}</p>
+                <ng-container *ngFor="let label of labels[i] ; let j = index">
+                  <td>
+                    <mat-basic-chip [style.background-color]= label.color>  &nbsp;{{label.name}}&nbsp;</mat-basic-chip>
+                  </td>
+                </ng-container>
+              </tr>
+
+              <ng-container *ngIf="slideToggleChecked">
+                <p class="status" style="color: red">{{States[i]}}</p>
+              </ng-container>
+              <ng-container *ngIf="!slideToggleChecked">
+                <p class="status" style="color: #808080">{{States[i]}}</p>
+              </ng-container>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <br>
+          <br>
+          <br>
+          <div class="issue_content">
+            <p>Since: <span>{{startDates[i]}}</span></p>
+            <p>Update:<span> {{updateDates[i]}}</span></p>
+            <ng-container *ngIf="closeDates[i]!=null">
+              <p>Close: <span>{{closeDates[i]}}</span></p>
+              <p>Lead Time: <span style="color: #A52A2A;">{{lead_time[i]}}</span></p>
+            </ng-container>
+            <p>Link:<span> {{html_urls[i]}}</span></p>
+          </div>
+          <pre class="bodyPre">{{bodys[i]}}</pre>
+        </mat-expansion-panel>
+      </ng-container>
+    </ng-container>
+  </mat-accordion>
+</div>

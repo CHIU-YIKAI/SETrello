@@ -1,0 +1,109 @@
+<div style="width: 100%; text-align: center">
+  <table class="githubTable" style="margin: auto;">
+    <tr>
+      <td style="text-align: center">
+        <img src={{githubAvatarUrl}} width="180" height="180" alt="photo" style="border-radius: 90px; border: #DCDCDC solid">
+      </td>
+    </tr>
+    <tr>
+      <td class="UserName">
+        <b>{{UserName | uppercase}}</b>
+      </td>
+    </tr>
+  </table>
+
+  <table class="sonarTable" style="margin: 5px auto auto auto;">
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/bug_new.png" width="30" height="30" alt="Bugs">
+      </td>
+      <td class="sonar_name">
+        <span><b>Bugs</b></span>
+      </td>
+    </tr>
+    <tr>
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.bugs}}</b></span>
+        / Rank
+        <span class={{bugClass}}><b class="RankClass">{{datas.reliabilityRating}}</b></span>
+      </td>
+    </tr>
+
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/CodeSmell.png" width="30" height="30" alt="Code Smells">
+      </td>
+      <td class="sonar_name">
+        <span><b>Code Smells</b></span>
+      </td>
+    </tr>
+    <tr>
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.codeSmell}}</b></span>
+        / Rank
+        <span class={{codeSmellClass}}><b class="RankClass">{{datas.maintainabilityRating}}</b></span>
+      </td>
+    </tr>
+
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/lock.png" width="30" height="30" alt="Code Smells">
+      </td>
+      <td class="sonar_name">
+        <span><b>Vulnerabilities</b></span>
+      </td>
+    </tr>
+    <tr>
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.vulnerabilities}}</b></span>
+        / Rank
+        <span class={{vulnerabilityClass}}><b class="RankClass">{{datas.securityRating}}</b></span>
+      </td>
+    </tr>
+
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/shield.png" width="30" height="30" alt="Code Smells">
+      </td>
+      <td class="sonar_name">
+        <span><b>Security Hotspots</b></span>
+      </td>
+    </tr>
+    <tr>
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.securityHotspots}}</b></span>
+        / Rank
+        <span class={{securityHotspotClass}}><b class="RankClass">{{datas.securityReviewRating}}</b></span>
+      </td>
+    </tr>
+
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/CodeCoverage.png" width="30" height="30" alt="Code Coverage">
+      </td>
+      <td class="sonar_name">
+        <span><b>Code Coverage</b></span>
+      </td>
+    </tr>
+    <tr>
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.coverage}} %</b></span>
+      </td>
+    </tr>
+
+    <tr class="sonarqubetr">
+      <td rowspan="2" style="text-align: left; vertical-align: top">
+        <img src="./assets/images/duplicate.png" width="30" height="30" alt="Duplication">
+      </td>
+      <td class="sonar_name">
+        <span><b>Duplication</b></span>
+      </td>
+    </tr>
+    <tr style="border-bottom: rgba(220, 220, 220, 0.6) solid">
+      <td class ="sonar_index">
+        <span><b class="IndexClass">{{datas.duplication}} %</b></span>
+      </td>
+    </tr>
+
+  </table>
+</div>
