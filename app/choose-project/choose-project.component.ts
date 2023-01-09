@@ -16,6 +16,7 @@ export class ChooseProjectComponent implements OnInit {
   projectRepoNumbers = new Array();
   ProjectStartTime = new Array();
   datas: any;
+  trellodatas : any;
   responsedata: any;
   item:any;
   totalProject:any;
@@ -37,9 +38,39 @@ export class ChooseProjectComponent implements OnInit {
     window.scrollTo(0, 0);
     this.UserID = window.sessionStorage.getItem('UserID');
     this.getTotalProjectInfo();
+    this.getTrelloProject();
   }
 
   getTotalProjectInfo() {
+
+    const UserProjectData = {
+      userId:undefined,
+    };
+    UserProjectData.userId  = this.UserID;
+    const data = JSON.stringify(UserProjectData);
+    this.getProjectInfoService.getUserProjectData(data).subscribe(
+      request => {
+        this.datas = request;
+        console.log(this.datas);
+
+        for (let item of this.datas) {
+          const UserData = {
+            projectId:undefined,
+          };
+          UserData.projectId  = item.projectId;
+          const data = JSON.stringify(UserData);
+          this.getrepoinfoofchosenproject.getRepoDataOfProject(data).subscribe(
+            request => {
+              this.githubUrlDatas = request;
+            }
+          );
+        }
+      }
+    );
+  }
+
+  getTrelloProject(){
+    //TODO
     for (let i = 0; i<this.githubUrl.length; i++) {
       this.githubUrl.pop();
     }
@@ -73,7 +104,6 @@ export class ChooseProjectComponent implements OnInit {
       }
     );
   }
-
   choose_repo(projectid, projectName, projectDescription) {
     console.log(projectid);
     sessionStorage.setItem('ChosenProjectID', projectid);
