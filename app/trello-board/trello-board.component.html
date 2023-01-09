@@ -1,19 +1,34 @@
 <app-header></app-header>
+<meta charset="UTF-8" />
+<div class="ToggleFont">Trello Board : {{Trello_Board}}</div>
+<div>
+  <ng-container *ngFor="let board_item of board">
+    <div class="myButton" style="display: inline; border-bottom: #0b2e13 solid; padding-bottom: 10px">
+      <button class={{ListTrackButton}} (click)="getListTrack()">{{board_item.list_name}}</button>
+    </div>
+    <mat-accordion class="example-headers-align">
+      <ng-container *ngFor="let list_item of board_item.list_data">
+        <mat-expansion-panel class="mainPanel" hideToggle>
+          <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
 
-<div style="width:100%; margin-top: 50px; padding-bottom: 50px;">
-  <!--
-  <table style="width: 100%">
-    <tr style="width: 100%">
-      <td style="vertical-align: top; width:22%;">
-        <app-sonarqube></app-sonarqube>
-      </td>
-      <td style="vertical-align: top; width:78%; border-left: #DCDCDC solid; padding-left: 40px">
-        <app-gitanalysis></app-gitanalysis>
-      </td>
-    </tr>
-  </table>
-  -->
-  <h1>Trello Board</h1>
+            <mat-panel-title>
+              <tr style="width: 100%">
+                <p style="width: 90%; word-wrap: break-word;">{{list_item.card_title}}</p>
+              </tr>
+            </mat-panel-title>
+
+            <mat-panel-description>
+              <p class="status" style="color: red">open</p>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <br>
+          <br>
+          <br>
+          <div class="issue_content">
+            <p>Content: <span>{{list_item.card_content}}</span></p>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </ng-container>
 </div>
-
-<!--<app-footer></app-footer>-->
