@@ -25,20 +25,22 @@
 <body>
 
 <app-header></app-header>
+
+-
 <section class="content4 cid-sk45OLP2XQ" id="content4-12">
   <div class="container">
     <div class="row justify-content-center">
       <div class="title col-md-12 col-lg-10">
         <h3 class="mbr-section-title mbr-fonts-style align-center mb-4 display-2">
           <h4 class="mbr-section-subtitle align-center mbr-fonts-style display-5"
-              style="font-family: Impact; margin-top: 30px;"><br>Create Trello</h4>
+              style="font-family: Impact; margin-top: 30px;"><br>Create Trello Board</h4>
           <form action="" class="addProject" method="post">
             <div style="margin: 0 auto 0 auto; text-align: center;">
               <table style="margin: auto;">
                 <tr class="InputTable">
                   <td style="vertical-align:top;">
                     <div class="rgba" style="text-align:left; width:auto; display:inline-block">
-                      <h4 class="display-4">Project Name: <br><input type="text" name="ProjectName" placeholder="專案名稱" [(ngModel)]="NameofProject" autocomplete="off">
+                      <h4 class="display-4">Board Name: <br><input type="text" name="ProjectName" placeholder="專案名稱" [(ngModel)]="NameofProject" autocomplete="off">
                       </h4>
                       <h4 class="display-4 ">Project Description(optional):<br>
                         <textarea [(ngModel)]="DesciptionOfProject" class="ProjectDescription"
@@ -51,21 +53,12 @@
                     <table style="margin: auto;">
                       <tr class="ImgTr">
                         <td>
-                          <img src="./assets/images/GitHub-logo.png" class="GitHubLogo" alt="GitHub">
-                        </td>
-                        <td>
-                          <img src="./assets/images/sonar.png" class="SonarLogo" alt="SonarQube">
+                          <img src="./assets/images/trello.png" class="TrelloLogo" alt="Trello">
                         </td>
                       </tr>
                       <tr class="InputTr">
                         <td>
-                          <h4 class="display-4">Add Github Repo Link : <br>
-                            <input type="text" name="GitRepoUrl" placeholder="Input Repo url:"
-                                   [(ngModel)]="InputGitRepoUrl" autocomplete="off"><span class="  text-black display-4" href="#"></span>
-                          </h4>
-                        </td>
-                        <td>
-                          <h4 class="display-4">Add Sonar Host : <br>
+                          <h4 class="display-4">Add Trello Host : <br>
                             <input type="text" name="SonarHost" placeholder="Sonar Host:" [(ngModel)]="InputSonarHost"
                                    autocomplete="off"><span class="  text-black display-4" href="#"></span>
                           </h4>
