@@ -15,6 +15,6 @@ export class CreateTrelloService {
     const options = {
       headers
     };
-    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/CreateTrelloBoardProject', body, options);
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/CreateTrelloProject', body, options);
   }
 }

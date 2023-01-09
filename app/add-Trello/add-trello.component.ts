@@ -13,7 +13,7 @@ export class AddTrelloComponent implements OnInit {
 
   datas: any;
   NameofBoard = '';
-  DesciptionOfBoard= '';
+  DescriptionOfBoard= '';
   UserID = '';
   IDofBoard:'';
   ProjectOverviewpageurl = "choose-project";
@@ -29,65 +29,56 @@ export class AddTrelloComponent implements OnInit {
     this.UserID = window.sessionStorage.getItem('UserID');
   }
   CreateProject() {
-    this.ErrorMsg = '';
-    if (this.NameofBoard == ''){
+    if (this.NameofBoard == '')
       this.ErrorMsg = "Board Name不得為空";
-    }
-    else if (this.InputTrelloKey == '') {
+    else if (this.InputTrelloKey == '')
       this.ErrorMsg = "Trello Key不得為空";
-    }
-    else if (this.InputTrelloToken == '') {
+    else if (this.InputTrelloToken == '')
       this.ErrorMsg = "Trello Token不得為空";
-    }
-    else
+    else{
       this.ErrorMsg = '';
+      const CreateUserBoardData = {
+        userId:undefined,
+        boardName:undefined,
+        boardDescription:undefined,
+        trelloKey:undefined,
+        trelloToken:undefined
+      };
+      CreateUserBoardData.userId  =  this.UserID.toString();
+      CreateUserBoardData.boardName  =  this.NameofBoard.toString();
+      CreateUserBoardData.boardDescription = this.DescriptionOfBoard.toString();
+      CreateUserBoardData.trelloKey  = this.InputTrelloKey.toString();
+      CreateUserBoardData.trelloToken  = this.InputTrelloToken.toString();
 
-    const CreateUserBoardData = {
-      userId:undefined,
-      boardName:undefined,
-      boardDescription:undefined,
-      trelloKey:undefined,
-      trelloToken:undefined
-    };
-    CreateUserBoardData.userId  =  this.UserID.toString();
-    CreateUserBoardData.boardName  =  this.NameofBoard.toString();
-    CreateUserBoardData.boardDescription = this.DesciptionOfBoard.toString();
-    CreateUserBoardData.trelloKey  = this.InputTrelloKey.toString();
-    CreateUserBoardData.trelloToken  = this.InputTrelloToken.toString();
-
-//     this.InputTrelloKey = '';
-//     this.InputTrelloToken = '';
-
-    const data = JSON.stringify(CreateUserBoardData);
-    this.createtrelloservice.createBoard(data).subscribe(
-      request => {
-        this.datas = request;
-        console.log(this.datas);
-//         this.boardImportMsg = this.datas.status;
-        this.boardImportMsg = "success"
-        if (this.boardImportMsg == ""){
-          this.ErrorMsg = "something error";
+      const data = JSON.stringify(CreateUserBoardData);
+      this.createtrelloservice.createBoard(data).subscribe(
+        request => {
+          this.datas = request;
+          console.log(this.datas);
+  //         this.boardImportMsg = this.datas.status;
+          this.boardImportMsg = "success"
+          if (this.boardImportMsg == ""){
+            this.ErrorMsg = "something error";
+          }
+          else if (this.boardImportMsg == "Invalid Key"){
+            this.ErrorMsg = "無效的Trello Key，請重新輸入";
+            this.InputTrelloKey = '';
+          }
+          else if (this.boardImportMsg == "Invalid Token"){
+            this.ErrorMsg = "無效的Trello Token，請重新輸入";
+            this.InputTrelloToken = '';
+          }
+          else if (this.boardImportMsg == "Invalid Board Name"){
+            this.ErrorMsg = "無效的看板名稱，請重新輸入";
+            this.NameofBoard= '';
+          }
+          else{
+            console.log("CreateBoardSuccess",this.boardImportMsg);
+            this.ErrorMsg = "CreateBoardSuccess"; //temp
+            this.router.navigate([this.ProjectOverviewpageurl]);
+          }
         }
-        else if (this.boardImportMsg == "Invalid Key"){
-          this.ErrorMsg = "無效的Trello Key，請重新輸入";
-          this.InputTrelloKey = '';
-        }
-        else if (this.boardImportMsg == "Invalid Token"){
-          this.ErrorMsg = "無效的Trello Token，請重新輸入";
-          this.InputTrelloToken = '';
-        }
-        else if (this.boardImportMsg == "Invalid Board Name"){
-          this.ErrorMsg = "無效的看板名稱，請重新輸入";
-          this.NameofBoard= '';
-        }
-        else{
-          console.log("CreateBoardSuccess",this.boardImportMsg);
-          this.ErrorMsg = "CreateBoardSuccess"; //temp
-        }
-//           this.IDofProject = this.datas.projectId;
-//           console.log("CreateProjectSuccess",this.IDofProject);
-        this.router.navigate([this.ProjectOverviewpageurl]);
-      }
-    );
+      );
+    }
   }
 }
