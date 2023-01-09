@@ -8,115 +8,86 @@ import { CreateTrelloService } from './create-trello.service';
   styleUrls: ['./add-trello.component.css']
 })
 export class AddTrelloComponent implements OnInit {
-  projectImportMsg = '';
-  InputGitRepoUrl = '';
-  badGitImportMsg = '';
-  badSonarImportMsg = '';
-  emptyProjectNameMsg = '';
+  boardImportMsg = '';
+  ErrorMsg = '';
 
   datas: any;
-  NameofProject = '';
-  DesciptionOfProject= '';
+  NameofBoard = '';
+  DesciptionOfBoard= '';
   UserID = '';
-  IDofProject:'';
+  IDofBoard:'';
   ProjectOverviewpageurl = "choose-project";
 
-  InputSonarHost = '';
-  InputSonarProjectKey = '';
-  InputSonarToken = '';
-
-  isGitUrlValid: boolean;
-  isSonarUrlValid: boolean;
+  InputTrelloKey = '';
+  InputTrelloToken = '';
 
   constructor(private router: Router, private createtrelloservice: CreateTrelloService ,private activerouter:ActivatedRoute ) {
 
-   }
+  }
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.UserID = window.sessionStorage.getItem('UserID');
-    this.isGitUrlValid = false;
-    this.isSonarUrlValid = false;
   }
-
-  CreateProjectCheckRepoUrlAndSonarUrl(){
-    this.isGitUrlValid = false;
-    if (this.NameofProject == '') {
-      this.emptyProjectNameMsg = "Project Name不得為空";
-    }
-    else {
-      this.emptyProjectNameMsg = '';
-      this.CheckGitHubRepoUrlValid();
-    }
-  }
-
-  CheckGitHubRepoUrlValid() {
-    this.badGitImportMsg = '';
-    console.log(this.InputGitRepoUrl);
-    if (this.InputGitRepoUrl != '') {
-      const GitRepoUrlData = {
-        githubUrl:undefined
-      };
-      GitRepoUrlData.githubUrl  = this.InputGitRepoUrl;
-      const data = JSON.stringify(GitRepoUrlData);
-    }
-    else {
-      this.InputGitRepoUrl = '';
-      this.badGitImportMsg = "GitHub RepoUrl不得為空";
-      this.CheckSonarUrlValid();
-    }
-  }
-
-  CheckSonarUrlValid(){
-    this.badSonarImportMsg = '';
-    if (this.InputSonarHost != '' && this.InputSonarProjectKey != '' && this.InputSonarToken != '') {
-      const SonarUrlData = {
-        sonarHost:undefined,
-        sonarProjectKey:undefined,
-        sonarToken:undefined
-      };
-      SonarUrlData.sonarHost  = this.InputSonarHost;
-      SonarUrlData.sonarProjectKey  = this.InputSonarProjectKey;
-      SonarUrlData.sonarToken  = this.InputSonarToken;
-
-      const data = JSON.stringify(SonarUrlData);
-      console.log(data);
-
-    }
-    else {
-      this.ResetSonarInput();
-      this.badSonarImportMsg = "Sonar Input不得為空";
-    }
-  }
-
-  ResetSonarInput() {
-    this.InputSonarHost = '';
-    this.InputSonarProjectKey = '';
-    this.InputSonarToken = '';
-  }
-
   CreateProject() {
-    const CreateUserProjectData = {
+    this.ErrorMsg = '';
+    if (this.NameofBoard == ''){
+      this.ErrorMsg = "Board Name不得為空";
+    }
+    else if (this.InputTrelloKey == '') {
+      this.ErrorMsg = "Trello Key不得為空";
+    }
+    else if (this.InputTrelloToken == '') {
+      this.ErrorMsg = "Trello Token不得為空";
+    }
+    else
+      this.ErrorMsg = '';
+
+    const CreateUserBoardData = {
       userId:undefined,
-      projectName:undefined,
-      projectDescription:undefined,
-      githubUrl:undefined,
-      sonarHost:undefined,
-      sonarProjectKey:undefined,
-      sonarToken:undefined
+      boardName:undefined,
+      boardDescription:undefined,
+      trelloKey:undefined,
+      trelloToken:undefined
     };
-    CreateUserProjectData.userId  =  this.UserID.toString();
-    CreateUserProjectData.projectName  =  this.NameofProject.toString();
-    CreateUserProjectData.projectDescription = this.DesciptionOfProject.toString();
-    CreateUserProjectData.githubUrl  =  this.InputGitRepoUrl.toString();
-    CreateUserProjectData.sonarHost  = this.InputSonarHost.toString();
-    CreateUserProjectData.sonarProjectKey  = this.InputSonarProjectKey.toString();
-    CreateUserProjectData.sonarToken  = this.InputSonarToken.toString();
+    CreateUserBoardData.userId  =  this.UserID.toString();
+    CreateUserBoardData.boardName  =  this.NameofBoard.toString();
+    CreateUserBoardData.boardDescription = this.DesciptionOfBoard.toString();
+    CreateUserBoardData.trelloKey  = this.InputTrelloKey.toString();
+    CreateUserBoardData.trelloToken  = this.InputTrelloToken.toString();
 
-    this.InputSonarHost = '';
-    this.InputSonarProjectKey = '';
-    this.InputSonarToken = '';
+//     this.InputTrelloKey = '';
+//     this.InputTrelloToken = '';
 
-    const data = JSON.stringify(CreateUserProjectData);
-
+    const data = JSON.stringify(CreateUserBoardData);
+    this.createtrelloservice.createBoard(data).subscribe(
+      request => {
+        this.datas = request;
+        console.log(this.datas);
+//         this.boardImportMsg = this.datas.status;
+        this.boardImportMsg = "success"
+        if (this.boardImportMsg == ""){
+          this.ErrorMsg = "something error";
+        }
+        else if (this.boardImportMsg == "Invalid Key"){
+          this.ErrorMsg = "無效的Trello Key，請重新輸入";
+          this.InputTrelloKey = '';
+        }
+        else if (this.boardImportMsg == "Invalid Token"){
+          this.ErrorMsg = "無效的Trello Token，請重新輸入";
+          this.InputTrelloToken = '';
+        }
+        else if (this.boardImportMsg == "Invalid Board Name"){
+          this.ErrorMsg = "無效的看板名稱，請重新輸入";
+          this.NameofBoard= '';
+        }
+        else{
+          console.log("CreateBoardSuccess",this.boardImportMsg);
+          this.ErrorMsg = "CreateBoardSuccess"; //temp
+        }
+//           this.IDofProject = this.datas.projectId;
+//           console.log("CreateProjectSuccess",this.IDofProject);
+        this.router.navigate([this.ProjectOverviewpageurl]);
+      }
+    );
   }
 }

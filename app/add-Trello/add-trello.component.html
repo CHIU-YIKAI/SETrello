@@ -40,11 +40,11 @@
                 <tr class="InputTable">
                   <td style="vertical-align:top;">
                     <div class="rgba" style="text-align:left; width:auto; display:inline-block">
-                      <h4 class="display-4">Board Name: <br><input type="text" name="ProjectName" placeholder="專案名稱" [(ngModel)]="NameofProject" autocomplete="off">
+                      <h4 class="display-4">Board Name: <br><input type="text" name="NameofBoard" placeholder="看板名稱" [(ngModel)]="NameofBoard" autocomplete="off">
                       </h4>
                       <h4 class="display-4 ">Project Description(optional):<br>
-                        <textarea [(ngModel)]="DesciptionOfProject" class="ProjectDescription"
-                                  id="ProjectDescriptionInputText" name="ProjectDescriptionInputTextArea" rows="10"
+                        <textarea [(ngModel)]="DesciptionOfBoard" class="BoardDescription"
+                                  id="BoardDescriptionInputText" name="BoardDescriptionInputTextArea" rows="10"
                                   cols="50" size="50%" maxlength="120" placeholder="長度限制:120字" type="text"
                                   onkeyup=""></textarea></h4>
                     </div>
@@ -58,18 +58,14 @@
                       </tr>
                       <tr class="InputTr">
                         <td>
-                          <h4 class="display-4">Add Trello Host : <br>
-                            <input type="text" name="SonarHost" placeholder="Sonar Host:" [(ngModel)]="InputSonarHost"
+                          <h4 class="display-4">Add Trello Key : <br>
+                            <input type="text" name="TrelloKey" placeholder="Trello Key:" [(ngModel)]="InputTrelloKey"
                                    autocomplete="off"><span class="  text-black display-4" href="#"></span>
                           </h4>
-                          <h4 class="display-4">Add Sonar Project Key : <br>
-                            <input type="text" name="SonarProjectKey" placeholder="Sonar Project Key:"
-                                   [(ngModel)]="InputSonarProjectKey" autocomplete="off"><span
+                          <h4 class="display-4">Add Trello Token : <br>
+                            <input type="text" name="TrelloToken" placeholder="Trello Token:"
+                                   [(ngModel)]="InputTrelloToken" autocomplete="off"><span
                               class="  text-black display-4" href="#"></span>
-                          </h4>
-                          <h4 class="display-4">Add Sonar Token : <br>
-                            <input type="text" name="SonarToken" placeholder="Sonar Token:"
-                                   [(ngModel)]="InputSonarToken" autocomplete="off"><span class="  text-black display-4" href="#"></span>
                           </h4>
                         </td>
                       </tr>
@@ -80,12 +76,10 @@
             </div>
 
             <div style="text-align:center; margin-top: 20px" class="display-4">
-              <button type="submit" class="ProjectCreation" (click)="CreateProjectCheckRepoUrlAndSonarUrl()" style="border-radius: 8px">Create
-                Project
+              <button type="submit" class="ProjectCreation" (click)="CreateProject()" style="border-radius: 8px">Create
+                Board
               </button>
-              <h5 style="color:red; margin-top: 15px;">{{emptyProjectNameMsg}}</h5>
-              <h5 style="color:red; margin-top: 15px;">{{badGitImportMsg}}</h5>
-              <h5 style="color:red; margin-top: 15px;">{{badSonarImportMsg}}</h5>
+              <h5 style="color:red; margin-top: 15px;">{{ErrorMsg}}</h5>
             </div>
           </form>
         </h3>
