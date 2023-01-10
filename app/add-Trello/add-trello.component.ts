@@ -38,27 +38,29 @@ export class AddTrelloComponent implements OnInit {
     else{
       this.ErrorMsg = '';
       const CreateUserBoardData = {
-        userId:undefined,
-        boardName:undefined,
-        boardDescription:undefined,
-        trelloKey:undefined,
-        trelloToken:undefined
+        UserID:undefined,
+        BoardName:undefined,
+        description:undefined,
+        UserKey:undefined,
+        UserToken:undefined
       };
-      CreateUserBoardData.userId  =  this.UserID.toString();
-      CreateUserBoardData.boardName  =  this.NameofBoard.toString();
-      CreateUserBoardData.boardDescription = this.DescriptionOfBoard.toString();
-      CreateUserBoardData.trelloKey  = this.InputTrelloKey.toString();
-      CreateUserBoardData.trelloToken  = this.InputTrelloToken.toString();
+      CreateUserBoardData.UserID  =  this.UserID.toString();
+      CreateUserBoardData.BoardName  =  this.NameofBoard.toString();
+      CreateUserBoardData.description = this.DescriptionOfBoard.toString();
+      CreateUserBoardData.UserKey  = this.InputTrelloKey.toString();
+      CreateUserBoardData.UserToken  = this.InputTrelloToken.toString();
 
       const data = JSON.stringify(CreateUserBoardData);
       this.createtrelloservice.createBoard(data).subscribe(
         request => {
           this.datas = request;
           console.log(this.datas);
-  //         this.boardImportMsg = this.datas.status;
-          this.boardImportMsg = "success"
-          if (this.boardImportMsg == ""){
-            this.ErrorMsg = "something error";
+          this.boardImportMsg = this.datas.status;
+          // this.boardImportMsg = "success"
+          if (this.boardImportMsg == "success"){
+            console.log("CreateBoardSuccess",this.boardImportMsg);
+            this.ErrorMsg = "CreateBoardSuccess"; //temp
+            this.router.navigate([this.ProjectOverviewpageurl]);
           }
           else if (this.boardImportMsg == "Invalid Key"){
             this.ErrorMsg = "無效的Trello Key，請重新輸入";
@@ -73,9 +75,7 @@ export class AddTrelloComponent implements OnInit {
             this.NameofBoard= '';
           }
           else{
-            console.log("CreateBoardSuccess",this.boardImportMsg);
-            this.ErrorMsg = "CreateBoardSuccess"; //temp
-            this.router.navigate([this.ProjectOverviewpageurl]);
+            this.ErrorMsg = "something error";
           }
         }
       );
