@@ -240,4 +240,21 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     }
 
+    @Override
+    public void updateAccountTrelloCredentials(Account account) throws SQLException {
+//        if (!accounts.contains(account)) accounts.add(account);
+//        Account accountInDB = getAccountById(account.getId());
+//        accountInDB = accountInDB == null ? new Account("", "") : accountInDB;
+
+        final String Update = " UPDATE user SET trelloKey=?, trelloToken=? WHERE (user_id=?) ";
+        assert conn != null;
+        PreparedStatement preparedStatement = conn.prepareStatement(Update);
+
+        preparedStatement.setString(1, account.getTrelloKey());
+        preparedStatement.setString(2, account.getTrelloToken());
+        preparedStatement.setString(3, account.getId());
+        preparedStatement.execute();
+
+    }
+
 }

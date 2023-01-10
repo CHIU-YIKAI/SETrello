@@ -63,6 +63,7 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
             BoardID = BoardNameMatching(getTrelloBoardInfoList, requestDto.getBoardName());
 
             createTrelloBoardProject(requestDto.getUserID(), requestDto.getBoardName(), requestDto.getDescription(), BoardID);
+            addCredentialstoUser(requestDto.getUserID(), requestDto.getUserKey(), requestDto.getUserToken());
             isSuccessful = true;
             response_status = getTrelloBoardInfoList.getresponseMsg();
         } catch (CreateTrelloProjectException e) {
@@ -123,14 +124,15 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
 
     }
 
-//    private void addCredentialstoUser(String UeserKey,String UserToken) throws CreateTrelloProjectException{
-//        AccountRepository accountRepository = new AccountRepositoryImpl();
-//        Account account = accountRepository.getAccountById(userId);
-//        account.addProject(projectId);
-//        try {
-//            accountRepository.updateAccountOwnProject(account);
-//        } catch (SQLException e) {
-//            throw new CreateTrelloProjectException("add project to user fail.");
-//        }
-//    }
+    private void addCredentialstoUser(String userId, String UserKey,String UserToken) throws CreateTrelloProjectException{
+        AccountRepository accountRepository = new AccountRepositoryImpl();
+        Account account = accountRepository.getAccountById(userId);
+        account.setTrelloKey(UserKey);
+        account.setTrelloToken(UserToken);
+        try {
+            accountRepository.updateAccountTrelloCredentials(account);
+        } catch (SQLException e) {
+            throw new CreateTrelloProjectException("update user credentials fail.");
+        }
+    }
 }
