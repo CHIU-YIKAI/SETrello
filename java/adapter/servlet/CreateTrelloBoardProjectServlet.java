@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import domain.Account;
 import dto.CreateTrelloBoardProjectServletDTO;
 
+import dto.TrelloBoardProjectinfoDTO;
 import dto.TrelloBoardProjectinfoListDTO;
 import org.json.JSONObject;
 
@@ -53,66 +54,58 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
         String projectId;
         String BoardID;
         boolean isSuccessful;
+        String response_status;
         CreateTrelloBoardProjectServletDTO requestDto = gson.fromJson(requestBody, CreateTrelloBoardProjectServletDTO.class);
-        TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
         TrelloBoardProjectinfoListDTO getTrelloBoardInfoList = new TrelloBoardProjectinfoListDTO();
 
         try {
-            BoardID = "tmp ID";
-            getTrelloBoardInfoList = TrelloAccessor.getTrelloBoardInfoList(requestDto.getUserKey(), requestDto.getUserToken(), requestDto.getBoardName());
-            projectId = createTrelloBoardProject(requestDto.getUserID(), requestDto.getBoardName(), requestDto.getDescription(), getTrelloBoardInfoList.getresponseMsg());
-//            addProjectOnUserID(requestDto.getUserID(), projectId);
+            getTrelloBoardInfoList = getUserBoardList(requestDto.getUserKey(), requestDto.getUserToken());
+            BoardID = BoardNameMatching(getTrelloBoardInfoList, requestDto.getBoardName());
+
+            createTrelloBoardProject(requestDto.getUserID(), requestDto.getBoardName(), requestDto.getDescription(), BoardID);
             isSuccessful = true;
+            response_status = getTrelloBoardInfoList.getresponseMsg();
         } catch (CreateTrelloProjectException e) {
             projectId="";
             isSuccessful= false;
+            response_status = e.getMessage();
         }
 
-
-//        responseJson.put("projectId", projectId);
-        responseJson.put("isSuccessful", getTrelloBoardInfoList.isSuccessful());
-        responseJson.put("status", getTrelloBoardInfoList.getresponseMsg());
+        responseJson.put("isSuccessful", isSuccessful);
+        responseJson.put("status", response_status);
         PrintWriter out = response.getWriter();
         out.println(responseJson);
         out.close();
     }
-//
-//    private void createGitRepository(String githubUrl, String projectId) throws CreateProjectException  {
-//        GitRepositoryRepository gitRepositoryRepository = new GitRepositoryRepositoryImpl();
-//        CreateGitRepositoryInput input = new CreateGitRepositoryInputImpl();
-//        CreateGitRepositoryOutput output = new CreateGitRepositoryOutputImpl();
-//        CreateGitRepositoryUseCase createGitRepositoryUseCase = new CreateGitRepositoryUseCase(gitRepositoryRepository);
-//
-//        input.setProjectID(projectId);
-//        input.setOwnerName(getRepoName(githubUrl, "github.com"));
-//        input.setRepoName(getRepoOwnerName(githubUrl, "github.com"));
-//        createGitRepositoryUseCase.execute(input, output);
-//
-//        if (!output.getIsSuccessful()) throw new CreateProjectException("create git repository fail");
-//    }
-//    private String getRepoOwnerName(String validUrl, String keyWord) throws CreateProjectException {
-//        String[] metadatas = validUrl.split("/");
-//        for (int i = 0; i < metadatas.length; i++) {
-//            if (metadatas[i].equals(keyWord)) {
-//                return metadatas[i+2];
-//            }
-//        }
-//        throw new CreateProjectException("parse repository owner name fail!");
-//    }
-//
-//    private String getRepoName(String validUrl, String keyWord) throws CreateProjectException {
-//        String[] metadatas = validUrl.split("/");
-//        for (int i = 0; i < metadatas.length; i++) {
-//            if (metadatas[i].equals(keyWord)) {
-//                return metadatas[i+1];
-//            }
-//        }
-//        throw new CreateProjectException("parse repository name fail!");
-//    }
-//
-//
-//
-    private String createTrelloBoardProject(String UserID, String BoardName, String description, String BoardID)  throws CreateTrelloProjectException{
+    private String BoardNameMatching(TrelloBoardProjectinfoListDTO TrelloBoardProjectinfoListDTO, String BoardName)throws CreateTrelloProjectException{
+        String BoardID = null;
+        System.out.println("board name input");
+        System.out.println(BoardName);
+        for ( dto.TrelloBoardProjectinfoDTO TrelloBoardProjectinfoDTO : TrelloBoardProjectinfoListDTO.getTrelloBoardProjectinfoList()) {
+            System.out.println(TrelloBoardProjectinfoDTO.getName());
+            if( BoardName.equals(TrelloBoardProjectinfoDTO.getName())){
+                System.out.println("Found matching board name");
+                System.out.println(TrelloBoardProjectinfoDTO.getId());
+                System.out.println(TrelloBoardProjectinfoDTO.getName());
+                BoardID = TrelloBoardProjectinfoDTO.getId();
+                return BoardID;
+            }
+        }
+        throw new CreateTrelloProjectException("No matching Board Name");
+
+
+    }
+
+    private TrelloBoardProjectinfoListDTO getUserBoardList(String UserKey, String UserToken)throws CreateTrelloProjectException{
+        TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
+        TrelloBoardProjectinfoListDTO getTrelloBoardInfoList = new TrelloBoardProjectinfoListDTO();
+        getTrelloBoardInfoList = TrelloAccessor.getTrelloBoardInfoList(UserKey, UserToken);
+        if(!getTrelloBoardInfoList.isSuccessful()){
+            throw new CreateTrelloProjectException(getTrelloBoardInfoList.getresponseMsg());
+        }
+        return getTrelloBoardInfoList;
+    }
+    private void createTrelloBoardProject(String UserID, String BoardName, String description, String BoardID)  throws CreateTrelloProjectException{
 
         TrelloBoardProjectRepository TrelloBoardRepository = new ProjectTrelloBoardRepositoryImpl();
         CreateTrelloBoardProjectInput input = new CreateTrelloBoardProjectInputImpl();
@@ -122,25 +115,21 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
         input.setBoardName(BoardName);
         input.setDescription(description);
         input.setBoardID(BoardID);
-//        input.s(projectId);
 
-        CreateTrelloBoardProjectUseCase createSonarProjectUseCase = new CreateTrelloBoardProjectUseCase(TrelloBoardRepository);
-        createSonarProjectUseCase.execute(input,output);
-        if (!output.getIsSuccessful()) throw new CreateTrelloProjectException();
-        System.out.println("ProjectID===============");
-        System.out.println(output.getTrelloBoardProjectId());
-        System.out.println("ProjectID===============");
-        return output.getTrelloBoardProjectId();
+        CreateTrelloBoardProjectUseCase createTrelloBoardProjectUseCase = new CreateTrelloBoardProjectUseCase(TrelloBoardRepository);
+        createTrelloBoardProjectUseCase.execute(input,output);
+        if (!output.getIsSuccessful()) throw new CreateTrelloProjectException("add project failed");
+
     }
 
-    private void addProjectOnUserID(String userId,String projectId) throws CreateTrelloProjectException{
-        AccountRepository accountRepository = new AccountRepositoryImpl();
-        Account account = accountRepository.getAccountById(userId);
-        account.addProject(projectId);
-        try {
-            accountRepository.updateAccountOwnProject(account);
-        } catch (SQLException e) {
-            throw new CreateTrelloProjectException("add project to user fail.");
-        }
-    }
+//    private void addCredentialstoUser(String UeserKey,String UserToken) throws CreateTrelloProjectException{
+//        AccountRepository accountRepository = new AccountRepositoryImpl();
+//        Account account = accountRepository.getAccountById(userId);
+//        account.addProject(projectId);
+//        try {
+//            accountRepository.updateAccountOwnProject(account);
+//        } catch (SQLException e) {
+//            throw new CreateTrelloProjectException("add project to user fail.");
+//        }
+//    }
 }

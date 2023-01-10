@@ -48,7 +48,6 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
     public TrelloBoardProject getTrelloBoardProjectByTrelloBoardProjectId(String id) {
         final String query = "SELECT trelloProjectID,BoardName,description, trelloBoardID, UserID FROM trelloproject WHERE  trelloProjectID = ?";
 
-
         try {
             assert conn != null;
             ResultSet resultSet;

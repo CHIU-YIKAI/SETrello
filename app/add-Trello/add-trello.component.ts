@@ -9,6 +9,8 @@ import { CreateTrelloService } from './create-trello.service';
 })
 export class AddTrelloComponent implements OnInit {
   boardImportMsg = '';
+
+  isSuccessful = false;
   ErrorMsg = '';
 
   datas: any;
@@ -55,27 +57,29 @@ export class AddTrelloComponent implements OnInit {
         request => {
           this.datas = request;
           console.log(this.datas);
+          this.isSuccessful = this.datas.isSuccessful;
           this.boardImportMsg = this.datas.status;
           // this.boardImportMsg = "success"
-          if (this.boardImportMsg == "success"){
+          if (this.isSuccessful){
             console.log("CreateBoardSuccess",this.boardImportMsg);
             this.ErrorMsg = "CreateBoardSuccess"; //temp
             this.router.navigate([this.ProjectOverviewpageurl]);
           }
-          else if (this.boardImportMsg == "Invalid Key"){
-            this.ErrorMsg = "無效的Trello Key，請重新輸入";
+          else if (this.boardImportMsg == "invalid credential"){
+            this.ErrorMsg = "無效的Trello APIKey或Token，請重新輸入";
             this.InputTrelloKey = '';
+            this.InputTrelloToken = '';
           }
           else if (this.boardImportMsg == "Invalid Token"){
             this.ErrorMsg = "無效的Trello Token，請重新輸入";
             this.InputTrelloToken = '';
           }
-          else if (this.boardImportMsg == "Invalid Board Name"){
+          else if (this.boardImportMsg == "No matching Board Name"){
             this.ErrorMsg = "無效的看板名稱，請重新輸入";
             this.NameofBoard= '';
           }
           else{
-            this.ErrorMsg = "something error";
+            this.ErrorMsg = this.boardImportMsg;
           }
         }
       );
