@@ -16,6 +16,5 @@ public interface AccountRepository {
     void deleteAccount(String id);
     void deleteAccountRelations(String id);
     // TODO: check this should use where
-    void updateAccountTrelloCredentials(Account account) throws SQLException;
     void deleteProjectRelations(String userId, String projectId) throws SQLException;
 }

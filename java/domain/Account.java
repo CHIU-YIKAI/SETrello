@@ -9,8 +9,7 @@ public class Account {
     private String id;
     private String password;
     private String account;
-    private String trelloKey;
-    private String trelloToken;
+
     private String githubId;
     private List<String> projects;
 
@@ -56,12 +55,6 @@ public class Account {
     public String getAccount() {
         return account;
     }
-    public String getTrelloKey() {
-        return trelloKey;
-    }
-    public String getTrelloToken() {
-        return trelloToken;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -80,11 +73,5 @@ public class Account {
 
     public void setGithubId(String githubId) {
         this.githubId = githubId;
-    }
-    public void setTrelloKey(String trelloKey) {
-        this.trelloKey = trelloKey;
-    }
-    public void setTrelloToken(String trelloToken) {
-        this.trelloToken = trelloToken;
     }
 }

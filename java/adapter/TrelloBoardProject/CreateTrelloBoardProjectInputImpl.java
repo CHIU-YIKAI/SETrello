@@ -1,50 +1,39 @@
 package adapter.TrelloBoardProject;
 
-import usecase.TrelloBoardProject.CreateTrelloBoardProjectInput;
+import usecase.gitrepository.CreateGitRepositoryInput;
 
-public class CreateTrelloBoardProjectInputImpl implements CreateTrelloBoardProjectInput {
-    private String id;
-    private String BoardName;
-    private String description;
+public class CreateTrelloBoardProjectInputImpl implements CreateGitRepositoryInput {
+    private String ownerName;
+    private String repoName;
+    private String projectID;
 
-    private String UserID;
-    private String BoardID;
     @Override
-    public String getID() {
-        return id;
+    public String getOwnerName() {
+        return ownerName;
     }
+
     @Override
-    public void setID(String id) {
-        this.id = id;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
+
     @Override
-    public String getUserID() { return UserID; }
-    @Override
-    public void setUserID(String UserID) {
-        this.UserID = UserID;
+    public String getRepoName() {
+        return repoName;
     }
+
     @Override
-    public String getBoardName() {
-        return BoardName;
+    public void setRepoName(String repoName) {
+        this.repoName = repoName;
     }
+
     @Override
-    public void setBoardName(String BoardName) {
-        this.BoardName = BoardName;
+    public String getProjectID() {
+        return projectID;
     }
+
     @Override
-    public String getDescription() {
-        return description;
-    }
-    @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    @Override
-    public String getBoardID() {
-        return BoardID;
-    }
-    @Override
-    public void setBoardID(String BoardID) {
-        this.BoardID = BoardID;
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
     }
 }
