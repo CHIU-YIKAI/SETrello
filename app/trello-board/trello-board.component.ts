@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrelloBoardComponent implements OnInit {
 
-  Trello_Board: string = "board_1"
+  Trello_Board_Name: string = "board_1"
+
+  Trello_Board_ID: string = "jhlkvjoiaj4oiewjfomweflo"
   ListTrackButton: string = "";
   readonly list1 = [{card_id:"1",card_title : "PEP撰寫", card_content:"奕凱 : S1-Project Planning and Milestone Checking、S2-Personnel\n慕全 : S3-Resources、S5-Risk Management" },{card_id:"2",card_title : "SRS撰寫", card_content:"奕凱 : S1-Introduction、S2-System" },{card_id:"3",card_title : "SDD撰寫", card_content:"0、1、2 YK" }];
   readonly list2 = [{card_id:"1",card_title : "PEP撰寫", card_content:"test1516515616" },{card_id:"2",card_title : "SRS撰寫", card_content:"test" },{card_id:"3",card_title : "SDD撰寫", card_content:"test" }];
@@ -34,15 +36,25 @@ export class TrelloBoardComponent implements OnInit {
   }
 
 
-  creatNewCard(value:any){
-    console.log(value)
+  createNewCard(listID:any){
+    console.log(listID)
     var name = prompt("卡片名稱");
     var Data = prompt("卡片內容");
 
   }
 
-  deleteCard(boardID: any, cardID :any){
-    console.log(boardID)
+  deleteCard(cardID :any){
     console.log(cardID)
   }
+
+  archiveList(listID: any){
+    console.log(listID)
+  }
+
+  createNewList(){
+    console.log(this.Trello_Board_ID)
+    var name = prompt("清單名稱");
+
+  }
+
 }

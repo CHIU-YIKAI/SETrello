@@ -118,7 +118,8 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
 
         CreateTrelloBoardProjectUseCase createTrelloBoardProjectUseCase = new CreateTrelloBoardProjectUseCase(TrelloBoardRepository);
         createTrelloBoardProjectUseCase.execute(input,output);
-        if (!output.getIsSuccessful()) throw new CreateTrelloProjectException("add project failed");
+
+        if (!output.getIsSuccessful()) throw new CreateTrelloProjectException(output.getsetErrorMsg());
 
     }
 

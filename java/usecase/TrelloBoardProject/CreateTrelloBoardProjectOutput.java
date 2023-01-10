@@ -13,4 +13,8 @@ public interface CreateTrelloBoardProjectOutput {
 
     String getTrelloBoardProjectId();
 
+    void setErrorMsg(String setErrorMsg);
+
+    String getsetErrorMsg();
+
 }
