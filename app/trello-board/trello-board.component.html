@@ -1,5 +1,19 @@
 <meta charset="UTF-8" />
-<div class="ToggleFont">Trello Board : {{Trello_Board_Name}}</div>
+<div class = "title_background">
+  <table width="95%">
+    <tr>
+    <td>
+      <div class="ToggleFont">Trello Board : {{Trello_Board_Name}}</div>
+    </td>
+    <td align="right">
+      <div>
+        <button mat-raised-button extended (click)="createNewList()">新增清單</button>
+      </div>
+    </td>
+  </table>
+</div>
+
+
 <div>
   <ng-container *ngFor="let board_item of board">
     <div class="myButton" style="display: inline; border-bottom: #0b2e13 solid; padding-bottom: 10px">
@@ -20,7 +34,7 @@
             </mat-panel-title>
 
             <mat-panel-description>
-              <p class="status" style="color: red">open</p>
+              <p class="status" style="color: #f0a202" >{{card_txt}}</p>
             </mat-panel-description>
 
           </mat-expansion-panel-header>
@@ -29,26 +43,19 @@
           <br>
           <div class="issue_content">
             <p>Content: <span>{{list_item.card_content}}</span></p>
-            <button (click)="deleteCard(list_item.card_id)">刪除卡片</button>
+            <table width="95%">
+              <tr>
+                <td align="right">
+                  <button mat-raised-button color="primary" extended (click)="deleteCard(list_item.card_id)">刪除卡片</button>
+                </td>
+              </tr>
+            </table>
           </div>
         </mat-expansion-panel>
 
       </ng-container>
     </mat-accordion>
   </ng-container>
-  <div>
-    <table>
-      <tr>
-        <td>
-          <h1>ADD New List</h1>
-        </td>
-        <td>
-          <button (click)="createNewList()">新增清單</button>
-        </td>
-      </tr>
-    </table>
-  </div>
-
 
 </div>
 
