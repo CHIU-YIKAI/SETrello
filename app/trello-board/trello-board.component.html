@@ -1,10 +1,11 @@
 <meta charset="UTF-8" />
-<div class="ToggleFont">Trello Board : {{Trello_Board}}</div>
+<div class="ToggleFont">Trello Board : {{Trello_Board_Name}}</div>
 <div>
   <ng-container *ngFor="let board_item of board">
     <div class="myButton" style="display: inline; border-bottom: #0b2e13 solid; padding-bottom: 10px">
       <button class={{ListTrackButton}} (click)="getListTrack()">{{board_item.list_name}}</button>
-      <button class={{ListTrackButton}} (click)="creatNewCard(board_item.list_ID)">新增卡片</button>
+      <button class={{ListTrackButton}} (click)="createNewCard(board_item.list_ID)">新增卡片</button>
+      <button class={{ListTrackButton}} (click)="archiveList(board_item.list_ID)">封存列表</button>
 
     </div>
     <mat-accordion class="example-headers-align">
@@ -28,7 +29,7 @@
           <br>
           <div class="issue_content">
             <p>Content: <span>{{list_item.card_content}}</span></p>
-            <button (click)="creatNewCard(board_item.list_ID, list_item.card_id)">刪除卡片</button>
+            <button (click)="deleteCard(list_item.card_id)">刪除卡片</button>
           </div>
         </mat-expansion-panel>
 
@@ -42,10 +43,7 @@
           <h1>ADD New List</h1>
         </td>
         <td>
-          <input placeholder="Trello Key:">
-        </td>
-        <td>
-          <button>add</button>
+          <button (click)="createNewList()">新增清單</button>
         </td>
       </tr>
     </table>
