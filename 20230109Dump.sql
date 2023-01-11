@@ -111,6 +111,7 @@ CREATE TABLE `trelloproject` (
   `trelloBoardID` varchar(200) NOT NULL,
   `BoardName` varchar(200) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
+  `starttime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`trelloProjectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
