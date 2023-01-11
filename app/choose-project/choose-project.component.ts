@@ -160,7 +160,7 @@ export class ChooseProjectComponent implements OnInit {
         //   console.log(this.owner);
         //
         // }
-        // this.router.navigate(['trelloBoard']);
+        this.router.navigate(['trelloBoard']);
       }
     );
   }
