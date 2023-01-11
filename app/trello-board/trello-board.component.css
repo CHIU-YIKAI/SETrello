@@ -1,3 +1,10 @@
+.demo-app-container,
+.demo-app-sidenav {
+  position: absolute;
+  padding-top: 64px;
+  height: calc(100vh - 64px);
+}
+
 
 .example-headers-align .mat-expansion-panel-header-description.mat-toolbar,
 .example-headers-align .mat-expansion-panel-header-title,
@@ -14,19 +21,6 @@
   font-size: 16px;
 }
 
-.dateP{
-  width: 100%;
-  justify-content: space-between;
-  color: red;
-}
-
-.example-headers-align .mat-expansion-panel-header-title{
-  align-items: center;
-  font-style: oblique;
-  color: #008000;
-  font-size: 24px;
-}
-
 .status{
   align-items: center;
   border-radius: 10px;
@@ -39,28 +33,6 @@
 .example-headers-align .mat-expansion-panel-header-description {
   font-size: 28px;
   color: #005cbf;
-}
-
-.mat-basic-chip{
-  padding: 5px 0px;
-  border-radius: 10px;
-  flex-basis: 0;
-  font-size: 16px;
-  color: black;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-.personal-avatar{
-  border-radius: 50%;
 }
 
 .mat-expansion-panel {
@@ -76,7 +48,20 @@
   font-family: 'Comic Sans MS', serif;
   font-size: 30px;
   margin-right: 15px;
+  margin-top: 10px;
 }
+
+.title_background{
+  top: 10;
+  z-index: 1000;
+  position: sticky;
+  background-color: #BDD5EA;
+  height: 60px;
+}
+.add_list_button{
+  left:100%;
+}
+
 
 .SlideToggle {
   display: inline;
@@ -88,16 +73,18 @@ mat-slide-toggle {
 
 mat-panel-title {
   max-width: 200px !important;
+  font-size:30px;
+  color: #3066bE;
 }
 
 .issue_content{
   font-size:20px;
-  color:#3CB371;
+  color:#090c9b;
 }
 
 .issue_content span {
   margin-left: 5px;
-  color:#4D80E6;
+  color:#090c9b;
 }
 
 div.myButton > button {
@@ -124,3 +111,5 @@ div.myButton > button:hover {
 div.myButton > button:last-child {
   margin-right: 0;
 }
+
+
