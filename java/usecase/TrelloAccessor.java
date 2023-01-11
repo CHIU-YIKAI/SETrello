@@ -8,4 +8,5 @@ public interface TrelloAccessor {
 //    TrelloBoardProjectinfoDTO getTrelloBoardInfo();
     TrelloBoardProjectinfoListDTO getTrelloBoardInfoList(String UserKey, String UserToken);
     TrelloDetailnfoDTO getTrelloDetailInfo(String BoardID, String UserKey, String UserToken);
+    boolean createTrelloList(String BoardID, String ListName, String UserKey, String UserToken);
 }

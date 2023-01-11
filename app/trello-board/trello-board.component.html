@@ -23,7 +23,7 @@
 
     </div>
     <mat-accordion class="example-headers-align">
-      <ng-container *ngFor="let list_item of board_item">
+      <ng-container *ngFor="let list_item of board_item.cards">
         <mat-expansion-panel class="mainPanel" hideToggle>
           <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
 
@@ -42,11 +42,11 @@
           <br>
           <br>
           <div class="issue_content">
-            <p>Content: <span>{{list_item.card_content}}</span></p>
+            <p>Content: <span>{{list_item.cardDescription}}</span></p>
             <table width="95%">
               <tr>
                 <td align="right">
-                  <button mat-raised-button color="primary" extended (click)="deleteCard(list_item.card_id)">刪除卡片</button>
+                  <button mat-raised-button color="primary" extended (click)="deleteCard(list_item.cardId)">刪除卡片</button>
                 </td>
               </tr>
             </table>

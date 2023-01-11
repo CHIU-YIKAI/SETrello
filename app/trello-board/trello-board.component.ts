@@ -17,7 +17,8 @@ export class TrelloBoardComponent implements OnInit {
   projectID = "";
   BoardID="";
   projectName = "";
-  lists = [];
+  lists :any ;
+  trelloList: any;
   listId = "";
   listName="";
   cardId = "";
@@ -64,7 +65,11 @@ export class TrelloBoardComponent implements OnInit {
       this.TrelloBoardService.RequestTrelloBoard(data).subscribe(
         request => {
           this.lists = request;
+          for(let trelloList of this.lists){
+            console.log(trelloList.listName);
+          }
           console.log(this.lists);
+
   //         this.boardImportMsg = this.datas.status;
           // this.boardImportMsg = "success"
           // if (this.boardImportMsg == ""){
