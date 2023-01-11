@@ -87,24 +87,24 @@ public class TrelloAccessorImpl implements TrelloAccessor {
 
     @Override
     public boolean createTrelloList(String BoardID, String ListName, String UserKey, String UserToken){
-//        getRequester = new HttpsRequester();
-////        TrelloBoardProjectinfoListDTO TrelloBoardProjectinfoListDTO = new TrelloBoardProjectinfoListDTO();
-////        TrelloBoardProjectinfoListDTO.setSuccessful(false);
-//        JSONArray response = null;
-//        try {
-//            String api = "https://api.trello.com/1/members/me/boards?key=%s&token=%s";
-//            String apiFormatted = String.format(api, UserKey, UserToken);
-//            response = getRequester.httpsGet(apiFormatted);
+        getRequester = new HttpsRequester();
+//        TrelloBoardProjectinfoListDTO TrelloBoardProjectinfoListDTO = new TrelloBoardProjectinfoListDTO();
+//        TrelloBoardProjectinfoListDTO.setSuccessful(false);
+        JSONArray response = null;
+        boolean isSuccessful = false;
+        try {
+            String api = "https://api.trello.com/1/lists?name=%s&idBoard=%s&key=%s&token=%s";
+            String apiFormatted = String.format(api, ListName, BoardID, UserKey, UserToken);
+            response = getRequester.httpsPost(apiFormatted);
 //            TrelloBoardProjectinfoListDTO = parseUSerTrlloBoardList(response);
-//        } catch (IOException e) {
+        } catch (IOException e) {
 //            TrelloBoardProjectinfoListDTO.setSuccessful(false);
 //            TrelloBoardProjectinfoListDTO.setresponseMsg("invalid credential");
-//            return TrelloBoardProjectinfoListDTO;
-//        }
-//        TrelloBoardProjectinfoListDTO.setSuccessful(true);
-//        TrelloBoardProjectinfoListDTO.setresponseMsg("success");
-//        return TrelloBoardProjectinfoListDTO;
-        return true;
+            isSuccessful = false;
+            return isSuccessful;
+        }
+        isSuccessful = true;
+        return isSuccessful;
     }
 
 

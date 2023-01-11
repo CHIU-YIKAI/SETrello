@@ -52,30 +52,19 @@ public class CreateTrelloListServlet extends HttpServlet {
         Account account = accountRepository.getAccountById(userId);
         JSONArray jsonArray = new JSONArray();
         try {
-            TrelloDetailnfoDTO TrelloDetailnfoDTO = showTrelloDetail(BoardId, account.getTrelloKey(), account.getTrelloToken());
-            for (TrelloListinfoDTO li : TrelloDetailnfoDTO.getTrelloListinfoDTOList()) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("listId", li.getId());
-                jsonObject.put("listName", li.getName());
-                JSONArray cardjsonArray = new JSONArray();
-                for (TrelloCardinfoDTO ca : li.getTrelloCardinfoDTOList()) {
-                    JSONObject cardjsonObject = new JSONObject();
-                    cardjsonObject.put("cardId",ca.getId());
-                    cardjsonObject.put("cardName",ca.getName());
-                    cardjsonObject.put("cardDescription",ca.getDescription());
-                    cardjsonArray.put( cardjsonObject);
-                }
-                jsonObject.put("cards",cardjsonArray);
-                jsonArray.put(jsonObject);
+            TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
+            isSuccessful = TrelloAccessor.createTrelloList( BoardId,  listName,  account.getTrelloKey(),  account.getTrelloToken());
+            if (isSuccessful) {
+                System.out.println("cannot create list");
+                throw new CreateTrelloListServlet.GetTrelloProjectException("cannot get info");
             }
 
         } catch (CreateTrelloListServlet.GetTrelloProjectException e) {
 
         }
-
-        System.out.println(jsonArray);
+        returnJson.put("isSuccessful", isSuccessful);
         PrintWriter out = response.getWriter();
-        out.println(jsonArray);
+        out.println(returnJson);
         out.close();
     }
 

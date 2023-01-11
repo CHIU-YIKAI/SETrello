@@ -19,6 +19,7 @@ export class TrelloBoardComponent implements OnInit {
   projectName = "";
   lists :any ;
   trelloList: any;
+  status: any;
   listId = "";
   listName="";
   cardId = "";
@@ -154,6 +155,23 @@ export class TrelloBoardComponent implements OnInit {
     var name = prompt("清單名稱");
     console.log(name);
     //TODO
+    const RequestData = {
+      userId:undefined,
+      boardId:undefined,
+      listName: undefined
+    };
+
+    RequestData.userId  =  this.UserID.toString();
+    RequestData.boardId  =  this.BoardID.toString();
+    RequestData.listName  =  name.toString();
+    const data = JSON.stringify(RequestData);
+    this.TrelloBoardService.addTrelloList(data).subscribe(
+      request => {
+        this.status = request;
+
+        console.log(this.status);
+      }
+    );
     this.reload();
   }
 

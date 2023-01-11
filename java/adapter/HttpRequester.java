@@ -3,6 +3,7 @@ package adapter;
 import org.json.JSONArray;
 import usecase.URLRequester;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -18,6 +19,12 @@ public class HttpRequester extends URLRequester {
     public JSONArray httpsGet(String url) throws IOException {
         connection = getConnection(url);
         ((HttpURLConnection)connection).setRequestMethod("GET");
+        return getResponse();
+    }
+    @Override
+    public JSONArray httpsPost(String url) throws IOException {
+        connection = getConnection(url);
+        ((HttpsURLConnection)connection).setRequestMethod("POST");
         return getResponse();
     }
     @Override

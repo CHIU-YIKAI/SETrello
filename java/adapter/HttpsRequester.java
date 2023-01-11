@@ -16,6 +16,12 @@ public class HttpsRequester extends URLRequester {
         return getResponse();
     }
     @Override
+    public JSONArray httpsPost(String url) throws IOException {
+        connection = getConnection(url);
+        ((HttpsURLConnection)connection).setRequestMethod("POST");
+        return getResponse();
+    }
+    @Override
     protected URLConnection getConnection(String url) throws IOException {
         URL requestUrl = new URL(url);
         return (HttpsURLConnection) requestUrl.openConnection();
