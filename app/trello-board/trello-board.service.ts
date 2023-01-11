@@ -17,4 +17,22 @@ export class TrelloBoardService {
     };
     return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/getUserTrelloDetail', body, options);
   }
+  public addTrelloList(body) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/json'
+    });
+    const options = {
+      headers
+    };
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/createTrelloList', body, options);
+  }
+  public addTrelloCard(body) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/json'
+    });
+    const options = {
+      headers
+    };
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/createTrelloCard', body, options);
+  }
 }

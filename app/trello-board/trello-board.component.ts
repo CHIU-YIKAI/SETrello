@@ -19,6 +19,8 @@ export class TrelloBoardComponent implements OnInit {
   projectName = "";
   lists :any ;
   trelloList: any;
+  status: any;
+  listID="";
   listId = "";
   listName="";
   cardId = "";
@@ -100,32 +102,34 @@ export class TrelloBoardComponent implements OnInit {
 
   createNewCard(listID:any){
     //const data = JSON.stringify(CreateUserBoardData);
+    this.listID = listID;
     console.log(listID)
     var name = prompt("卡片名稱");
     var Data = prompt("卡片內容");
     console.log(name,Data);
     //TODO
     const CreatCard = {
-      UserID:undefined,
-      ProjectID:undefined,
-      ListID:undefined,
-      name:undefined,
-      data:undefined
-    };
-    CreatCard.UserID  =  this.UserID.toString();
-    CreatCard.ProjectID  =  this.projectID.toString();
-    CreatCard.ListID = this.listId.toString();
-    CreatCard.name  =  name.toString();
-    CreatCard.data  =  Data.toString();
-    const data = JSON.stringify(CreatCard);
-    // this.TrelloBoardService.AddTrelloCard(data).subscribe(
-    //   request => {
-    //     this.lists = request;
-    //     console.log(this.lists);
-    //   }
-    // );
+      userId:undefined,
+      listId:undefined,
+      cardName:undefined,
+      desc:undefined
 
-    this.reload();
+    };
+    CreatCard.userId  =  this.UserID.toString();
+    CreatCard.listId = listID.toString();
+    CreatCard.cardName  =  name.toString();
+    CreatCard.desc  =  Data.toString();
+    const data = JSON.stringify(CreatCard);
+    console.log(data);
+    this.TrelloBoardService.addTrelloCard(data).subscribe(
+      request => {
+        this.status = request;
+
+        console.log(this.status);
+      }
+    );
+
+    window.location.reload();
   }
 
 
@@ -154,7 +158,24 @@ export class TrelloBoardComponent implements OnInit {
     var name = prompt("清單名稱");
     console.log(name);
     //TODO
-    this.reload();
+    const RequestData = {
+      userId:undefined,
+      boardId:undefined,
+      listName: undefined
+    };
+
+    RequestData.userId  =  this.UserID.toString();
+    RequestData.boardId  =  this.BoardID.toString();
+    RequestData.listName  =  name.toString();
+    const data = JSON.stringify(RequestData);
+    this.TrelloBoardService.addTrelloList(data).subscribe(
+      request => {
+        this.status = request;
+
+        console.log(this.status);
+      }
+    );
+    window.location.reload();
   }
 
 

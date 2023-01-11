@@ -4,9 +4,7 @@ import adapter.TrelloAccessorImpl;
 import adapter.TrelloBoardProject.ProjectTrelloBoardRepositoryImpl;
 import adapter.account.AccountRepositoryImpl;
 import domain.Account;
-import dto.TrelloCardinfoDTO;
 import dto.TrelloDetailnfoDTO;
-import dto.TrelloListinfoDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import usecase.TrelloAccessor;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/createTrelloList", name = "CreateTrelloListServlet")
-public class CreateTrelloListServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/createTrelloCard", name = "CreateTrelloCardServlet")
+public class CreateTrelloCardServlet extends HttpServlet {
     class GetTrelloProjectException extends Exception {
         GetTrelloProjectException(String msg) {
             super(msg);
@@ -46,20 +44,21 @@ public class CreateTrelloListServlet extends HttpServlet {
         TrelloBoardProjectRepository TrelloBoardProjectRepository = new ProjectTrelloBoardRepositoryImpl();
         System.out.println(requestBody);
         String userId = String.valueOf(requestBody.get("userId"));
-        String BoardId = String.valueOf(requestBody.get("boardId"));
-        String listName = String.valueOf(requestBody.get("listName"));
+        String listId = String.valueOf(requestBody.get("listId"));
+        String cardName = String.valueOf(requestBody.get("cardName"));
+        String desc = String.valueOf(requestBody.get("desc"));
         boolean isSuccessful = false;
         Account account = accountRepository.getAccountById(userId);
         JSONArray jsonArray = new JSONArray();
         try {
             TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
-            isSuccessful = TrelloAccessor.createTrelloList( BoardId,  listName,  account.getTrelloKey(),  account.getTrelloToken());
+            isSuccessful = TrelloAccessor.createTrelloCard( listId,  cardName, desc , account.getTrelloKey(),  account.getTrelloToken());
             if (isSuccessful) {
-                System.out.println("cannot create list");
-                throw new CreateTrelloListServlet.GetTrelloProjectException("cannot get info");
+                System.out.println("cannot create card");
+                throw new CreateTrelloCardServlet.GetTrelloProjectException("cannot get info");
             }
 
-        } catch (CreateTrelloListServlet.GetTrelloProjectException e) {
+        } catch (CreateTrelloCardServlet.GetTrelloProjectException e) {
 
         }
         returnJson.put("isSuccessful", isSuccessful);
