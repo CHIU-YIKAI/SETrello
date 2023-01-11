@@ -48,6 +48,7 @@ public class GetTrelloProjectServlet extends HttpServlet {
             jsonObject.put("projectName", TrelloBoardproject.getBoardName());
             jsonObject.put("projectDescription", TrelloBoardproject.getDescription());
             jsonObject.put("projectStartTime", TrelloBoardproject.getStartTime());
+            jsonObject.put("boardId", TrelloBoardproject.getBoardID());
             jsonArray.put(jsonObject);
         }
         System.out.println(jsonArray);
