@@ -22,6 +22,12 @@ public class HttpsRequester extends URLRequester {
         return getResponse();
     }
     @Override
+    public JSONArray httpsDelete(String url) throws IOException {
+        connection = getConnection(url);
+        ((HttpsURLConnection)connection).setRequestMethod("DELETE");
+        return getResponse();
+    }
+    @Override
     protected URLConnection getConnection(String url) throws IOException {
         URL requestUrl = new URL(url);
         return (HttpsURLConnection) requestUrl.openConnection();

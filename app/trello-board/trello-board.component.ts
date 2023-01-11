@@ -16,6 +16,7 @@ export class TrelloBoardComponent implements OnInit {
   UserID = "";
   projectID = "";
   BoardID="";
+  cardID="";
   projectName = "";
   lists :any ;
   trelloList: any;
@@ -72,28 +73,7 @@ export class TrelloBoardComponent implements OnInit {
           }
           console.log(this.lists);
 
-  //         this.boardImportMsg = this.datas.status;
-          // this.boardImportMsg = "success"
-          // if (this.boardImportMsg == ""){
-          //   this.ErrorMsg = "something error";
-          // }
-          // else if (this.boardImportMsg == "Invalid Key"){
-          //   this.ErrorMsg = "無效的Trello Key，請重新輸入";
-          //   this.InputTrelloKey = '';
-          // }
-          // else if (this.boardImportMsg == "Invalid Token"){
-          //   this.ErrorMsg = "無效的Trello Token，請重新輸入";
-          //   this.InputTrelloToken = '';
-          // }
-          // else if (this.boardImportMsg == "Invalid Board Name"){
-          //   this.ErrorMsg = "無效的看板名稱，請重新輸入";
-          //   this.NameofBoard= '';
-          // }
-          // else{
-          //   console.log("CreateBoardSuccess",this.boardImportMsg);
-          //   this.ErrorMsg = "CreateBoardSuccess"; //temp
-          //   this.router.navigate([this.ProjectOverviewpageurl]);
-          //}
+
         }
       );
 
@@ -132,14 +112,32 @@ export class TrelloBoardComponent implements OnInit {
     window.location.reload();
   }
 
-
+  BackToCHooseProject(){
+    this.router.navigate(['choose-project']);
+  }
   deleteCard(cardID :any){
     console.log(cardID);
     var check = confirm("確定要刪除?");
     console.log(check);
     if(check){
       //TODO
-      this.reload();
+      const RequestData = {
+        userId:undefined,
+        cardId:undefined
+      };
+      this.cardID = cardID;
+      RequestData.userId  =  this.UserID.toString();
+      RequestData.cardId  =  cardID.toString();
+      console.log(RequestData);
+      const data = JSON.stringify(RequestData);
+      this.TrelloBoardService.delTrelloCard(data).subscribe(
+        request => {
+          this.status = request;
+
+          console.log(this.status);
+        }
+      );
+      window.location.reload();
     }
   }
 
@@ -149,7 +147,8 @@ export class TrelloBoardComponent implements OnInit {
     console.log(check);
     if(check){
       //TODO
-      this.reload();
+
+      window.location.reload();
     }
   }
 

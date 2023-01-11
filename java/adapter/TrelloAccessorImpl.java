@@ -124,6 +124,22 @@ public class TrelloAccessorImpl implements TrelloAccessor {
         isSuccessful = true;
         return isSuccessful;
     }
-
-
+    @Override
+    public boolean delTrelloCard(String CardID, String UserKey, String UserToken){
+        getRequester = new HttpsRequester();
+//        TrelloBoardProjectinfoListDTO TrelloBoardProjectinfoListDTO = new TrelloBoardProjectinfoListDTO();
+//        TrelloBoardProjectinfoListDTO.setSuccessful(false);
+        JSONArray response = null;
+        boolean isSuccessful = false;
+        try {
+            String api = "https://api.trello.com/1/cards/%s?key=%s&token=%s";
+            String apiFormatted = String.format(api, CardID, UserKey, UserToken);
+            response = getRequester.httpsDelete(apiFormatted);
+        } catch (IOException e) {
+            isSuccessful = false;
+            return isSuccessful;
+        }
+        isSuccessful = true;
+        return isSuccessful;
+    }
 }

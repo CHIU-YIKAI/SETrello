@@ -31,6 +31,7 @@ public abstract class URLRequester {
 
     public abstract JSONArray httpsGet(String url) throws IOException;
     public abstract JSONArray httpsPost(String url) throws IOException;
+    public abstract JSONArray httpsDelete(String url) throws IOException;
     protected JSONArray getResponse() throws IOException {
         setConnectionProperty(connection);
         BufferedReader reader = getJSONUsingHttpsGet(connection);

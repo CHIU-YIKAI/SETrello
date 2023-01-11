@@ -35,4 +35,13 @@ export class TrelloBoardService {
     };
     return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/createTrelloCard', body, options);
   }
+  public delTrelloCard(body) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/json'
+    });
+    const options = {
+      headers
+    };
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/delTrelloCard', body, options);
+  }
 }

@@ -3,11 +3,12 @@
   <table width="95%">
     <tr>
     <td>
-      <div class="ToggleFont">Trello Board : {{Trello_Board_Name}}</div>
+      <div class="ToggleFont">Trello Board : {{projectName}}</div>
     </td>
     <td align="right">
       <div>
         <button mat-raised-button extended (click)="createNewList()">新增LIST</button>
+        <button mat-raised-button extended (click)="BackToCHooseProject()">返回</button>
       </div>
     </td>
   </table>
@@ -22,6 +23,7 @@
       <button class={{ListTrackButton}} (click)="archiveList(board_item.listId)">封存列表</button>
 
     </div>
+    <div></div>
     <mat-accordion class="example-headers-align">
       <ng-container *ngFor="let list_item of board_item.cards">
         <mat-expansion-panel class="mainPanel" hideToggle>
