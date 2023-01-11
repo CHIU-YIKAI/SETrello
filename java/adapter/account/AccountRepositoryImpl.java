@@ -33,7 +33,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Account getAccountById(String id) {
-        final String query = " SELECT name, account, password FROM user WHERE user_id=?";
+        final String query = " SELECT name, account, password, trelloKey, trelloToken FROM user WHERE user_id=?";
         Account account;
         try {
             assert conn != null;
@@ -46,10 +46,15 @@ public class AccountRepositoryImpl implements AccountRepository {
                     id,
                     resultSet.getString("name"),
                     resultSet.getString("account"),
-                    resultSet.getString("password")
+                    resultSet.getString("password"),
+                    resultSet.getString("trelloKey"),
+                    resultSet.getString("trelloToken")
             );
             for (String projectId : getAccountProjects(id)) {
                 account.addProject(projectId);
+            }
+            for (String TrelloBoardprojectId : getAccountTrelloBoardProjects(id)) {
+                account.addTrelloBoardProject(TrelloBoardprojectId);
             }
             return account;
         } catch (Exception e) {
@@ -93,9 +98,10 @@ public class AccountRepositoryImpl implements AccountRepository {
         accountInDB = accountInDB == null ? new Account("", "") : accountInDB;
 
         final String insert = " INSERT INTO user_project(user_id, project_id) VALUES(?,?) ";
-
+        System.out.println("user project-----------------");
         for (String projectId : account.getProjects()) {
             if (accountInDB.getProjects().contains(projectId)) continue;
+            System.out.println(projectId);
             assert conn != null;
             PreparedStatement preparedStatement = conn.prepareStatement(insert);
             preparedStatement.setString(1, account.getId());
@@ -236,6 +242,43 @@ public class AccountRepositoryImpl implements AccountRepository {
             e.printStackTrace();
         }
         return projects;
+
+    }
+    private List<String> getAccountTrelloBoardProjects(String id) {
+        final String query = " SELECT trelloProjectID FROM trelloproject WHERE userID=? ";
+        List<String> trelloProject = new ArrayList<>();
+        Account queryAccount = null;
+        try {
+            ResultSet resultSet;
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.first()) return trelloProject;
+            do {
+                trelloProject.add(resultSet.getString("trelloProjectID"));
+            }
+            while (resultSet.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trelloProject;
+
+    }
+
+    @Override
+    public void updateAccountTrelloCredentials(Account account) throws SQLException {
+//        if (!accounts.contains(account)) accounts.add(account);
+//        Account accountInDB = getAccountById(account.getId());
+//        accountInDB = accountInDB == null ? new Account("", "") : accountInDB;
+
+        final String Update = " UPDATE user SET trelloKey=?, trelloToken=? WHERE (user_id=?) ";
+        assert conn != null;
+        PreparedStatement preparedStatement = conn.prepareStatement(Update);
+
+        preparedStatement.setString(1, account.getTrelloKey());
+        preparedStatement.setString(2, account.getTrelloToken());
+        preparedStatement.setString(3, account.getId());
+        preparedStatement.execute();
 
     }
 

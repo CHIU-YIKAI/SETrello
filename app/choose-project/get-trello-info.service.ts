@@ -4,17 +4,17 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateTrelloService {
+export class GetTrelloInfoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public createBoard(body) {
+  public getUserTrelloData(body) {
     const headers = new HttpHeaders({
       'Content-Type': 'text/json'
     });
     const options = {
       headers
     };
-    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/CreateTrelloProject', body, options);
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/getUserTrello', body, options);
   }
 }

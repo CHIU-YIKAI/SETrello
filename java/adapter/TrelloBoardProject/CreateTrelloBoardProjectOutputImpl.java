@@ -1,22 +1,12 @@
 package adapter.TrelloBoardProject;
 
-import domain.GitRepository;
-import usecase.gitrepository.CreateGitRepositoryOutput;
+import usecase.TrelloBoardProject.CreateTrelloBoardProjectOutput;
 
-public class CreateTrelloBoardProjectOutputImpl implements CreateGitRepositoryOutput {
-    private GitRepository gitRepository;
+public class CreateTrelloBoardProjectOutputImpl implements CreateTrelloBoardProjectOutput {
+    private String BoardID;
+    private String ProjectId;
     private boolean isSuccessful;
-
-    @Override
-    public GitRepository getResult() {
-        return this.gitRepository;
-    }
-
-    @Override
-    public void setResult(GitRepository gitRepository) {
-        this.gitRepository = gitRepository;
-    }
-
+    private String setErrorMsg;
     @Override
     public boolean getIsSuccessful() {
         return this.isSuccessful;
@@ -25,4 +15,24 @@ public class CreateTrelloBoardProjectOutputImpl implements CreateGitRepositoryOu
     public void setIsSuccessful(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
+    @Override
+    public String getTrelloBoardId() {
+        return BoardID;
+    }
+    @Override
+    public void setTrelloBoardId(String BoardID) { this.BoardID = BoardID; }
+
+    @Override
+    public String getTrelloBoardProjectId() {
+        return ProjectId;
+    }
+    @Override
+    public void setTrelloBoardProjectId(String ProjectId) { this.ProjectId = ProjectId; }
+    @Override
+    public String getsetErrorMsg() {
+        return setErrorMsg;
+    }
+    @Override
+    public void setErrorMsg(String setErrorMsg) { this.setErrorMsg = setErrorMsg; }
+
 }

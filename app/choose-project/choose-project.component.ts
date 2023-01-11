@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Router,ActivatedRoute} from '@angular/router';
 import {GetProjectInfoService} from './get-project-info.service';
+import {GetTrelloInfoService} from './get-trello-info.service';
 import {DeleteProjectService} from './delete-project.service';
 import {GetRepoInfoOfChosenProjectService} from "../choose-repository/get-repo-info-of-chosen-project.service";
+import {DeleteTrelloBoardProjectService} from "./delete-TrelloBoardproject.service";
 
 @Component({
   selector: 'app-choose-project',
@@ -16,6 +18,7 @@ export class ChooseProjectComponent implements OnInit {
   projectRepoNumbers = new Array();
   ProjectStartTime = new Array();
   datas: any;
+  trellodatas : any;
   responsedata: any;
   item:any;
   totalProject:any;
@@ -31,19 +34,19 @@ export class ChooseProjectComponent implements OnInit {
   githubUrl = new Array();
   githubUrlDatas: any;
 
-  constructor(private router: Router, private getrepoinfoofchosenproject: GetRepoInfoOfChosenProjectService, private getProjectInfoService: GetProjectInfoService, private delProjectService: DeleteProjectService, private activerouter:ActivatedRoute ) {}
+  constructor(private router: Router, private getrepoinfoofchosenproject: GetRepoInfoOfChosenProjectService, private getProjectInfoService: GetProjectInfoService, private getTrelloInfoService: GetTrelloInfoService, private delProjectService: DeleteProjectService, private activerouter:ActivatedRoute, private delTrelloBoardProjectProjectService: DeleteTrelloBoardProjectService ) {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.UserID = window.sessionStorage.getItem('UserID');
     this.getTotalProjectInfo();
+    this.getTrelloProject();
   }
 
   getTotalProjectInfo() {
     for (let i = 0; i<this.githubUrl.length; i++) {
       this.githubUrl.pop();
     }
-
     const UserProjectData = {
       userId:undefined,
     };
@@ -63,12 +66,30 @@ export class ChooseProjectComponent implements OnInit {
           this.getrepoinfoofchosenproject.getRepoDataOfProject(data).subscribe(
             request => {
               this.githubUrlDatas = request;
-              for(let item of this.githubUrlDatas){
+              for(let item of this.githubUrlDatas) {
                 console.log(item);
                 this.githubUrl.push("https://github.com/" + item.ownerName + "/" + item.repoName);
               }
             }
           );
+        }
+      }
+    );
+  }
+
+  getTrelloProject(){
+    //TODO
+    const UserTrelloData = {
+      userId:undefined,
+    };
+    UserTrelloData.userId  = this.UserID;
+    const data = JSON.stringify(UserTrelloData);
+    this.getTrelloInfoService.getUserTrelloData(data).subscribe(
+      request => {
+        this.trellodatas = request;
+        for (let item of this.trellodatas) {
+          // this.trellodatas = "trello boards"
+          console.log(item);
         }
       }
     );
@@ -134,8 +155,35 @@ export class ChooseProjectComponent implements OnInit {
 
         }
       );
-    }else{
-      //this.router.navigate(['choose-project']);
+    }
+    window.location.reload();
+  }
+  delete_TrelloBoard(delId) {
+    const deletedprojectId: string = delId.toString();
+    console.log("choose to delete id:",deletedprojectId);
+    if(confirm("確認要刪除此專案嗎?"))
+    {
+      const DeleteProject = {
+        userId:undefined,
+        projectId:undefined
+      };
+      DeleteProject.userId  = this.UserID;
+      DeleteProject.projectId = deletedprojectId;
+      const deldata = JSON.stringify(DeleteProject);
+      this.delTrelloBoardProjectProjectService.deleteChosenProject(DeleteProject).subscribe(
+        request => {
+          this.responsedata = request;
+          console.log(this.responsedata);
+          if(this.responsedata.isSuccess == "true"){
+            alert("刪除專案成功")
+            //this.router.navigate(['choose-project']);
+          }
+          else{
+            alert("刪除專案失敗")
+          }
+
+        }
+      );
     }
     window.location.reload();
   }
