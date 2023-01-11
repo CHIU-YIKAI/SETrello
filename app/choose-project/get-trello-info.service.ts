@@ -17,4 +17,13 @@ export class GetTrelloInfoService {
     };
     return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/getUserTrello', body, options);
   }
+  public getUserTrelloDetail(body) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'text/json'
+    });
+    const options = {
+      headers
+    };
+    return this.httpClient.post<any>('/GitRepositoryAnalysisSystem/getUserTrelloDetail', body, options);
+  }
 }

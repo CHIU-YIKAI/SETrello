@@ -54,9 +54,10 @@
 .title_background{
   top: 10;
   z-index: 1000;
-  position: sticky;
+  position: fixed;
   background-color: #BDD5EA;
   height: 60px;
+  width:100%;
 }
 .add_list_button{
   left:100%;

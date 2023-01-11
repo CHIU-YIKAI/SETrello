@@ -4,7 +4,6 @@ import adapter.TrelloAccessorImpl;
 import adapter.TrelloBoardProject.ProjectTrelloBoardRepositoryImpl;
 import adapter.account.AccountRepositoryImpl;
 import domain.Account;
-import domain.TrelloBoardProject;
 import dto.TrelloCardinfoDTO;
 import dto.TrelloDetailnfoDTO;
 import dto.TrelloListinfoDTO;
@@ -22,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/getUserTrelloDetail", name = "GetTrelloDetailServlet")
-public class GetTrelloDetailServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/createTrelloList", name = "CreateTrelloListServlet")
+public class CreateTrelloListServlet extends HttpServlet {
     class GetTrelloProjectException extends Exception {
         GetTrelloProjectException(String msg) {
             super(msg);
@@ -48,6 +47,7 @@ public class GetTrelloDetailServlet extends HttpServlet {
         System.out.println(requestBody);
         String userId = String.valueOf(requestBody.get("userId"));
         String BoardId = String.valueOf(requestBody.get("boardId"));
+        String listName = String.valueOf(requestBody.get("listName"));
         boolean isSuccessful = false;
         Account account = accountRepository.getAccountById(userId);
         JSONArray jsonArray = new JSONArray();
@@ -69,7 +69,7 @@ public class GetTrelloDetailServlet extends HttpServlet {
                 jsonArray.put(jsonObject);
             }
 
-        } catch (GetTrelloDetailServlet.GetTrelloProjectException e) {
+        } catch (CreateTrelloListServlet.GetTrelloProjectException e) {
 
         }
 
@@ -79,13 +79,13 @@ public class GetTrelloDetailServlet extends HttpServlet {
         out.close();
     }
 
-    private TrelloDetailnfoDTO showTrelloDetail(String BoardID, String UserKey, String UserToken) throws GetTrelloDetailServlet.GetTrelloProjectException {
+    private TrelloDetailnfoDTO showTrelloDetail(String BoardID, String UserKey, String UserToken) throws CreateTrelloListServlet.GetTrelloProjectException {
         TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
         TrelloDetailnfoDTO TrelloDetailnfoDTO = new TrelloDetailnfoDTO();
         TrelloDetailnfoDTO = TrelloAccessor.getTrelloDetailInfo(BoardID, UserKey, UserToken);
         if (!TrelloDetailnfoDTO.isSuccessful()) {
             System.out.println("cannot get info");
-            throw new GetTrelloDetailServlet.GetTrelloProjectException("cannot get info");
+            throw new CreateTrelloListServlet.GetTrelloProjectException("cannot get info");
         }
         System.out.println("get info");
         return TrelloDetailnfoDTO;

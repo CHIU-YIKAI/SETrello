@@ -85,4 +85,27 @@ public class TrelloAccessorImpl implements TrelloAccessor {
         return TrelloDetailnfoDTO;
     }
 
+    @Override
+    public boolean createTrelloList(String BoardID, String ListName, String UserKey, String UserToken){
+//        getRequester = new HttpsRequester();
+////        TrelloBoardProjectinfoListDTO TrelloBoardProjectinfoListDTO = new TrelloBoardProjectinfoListDTO();
+////        TrelloBoardProjectinfoListDTO.setSuccessful(false);
+//        JSONArray response = null;
+//        try {
+//            String api = "https://api.trello.com/1/members/me/boards?key=%s&token=%s";
+//            String apiFormatted = String.format(api, UserKey, UserToken);
+//            response = getRequester.httpsGet(apiFormatted);
+//            TrelloBoardProjectinfoListDTO = parseUSerTrlloBoardList(response);
+//        } catch (IOException e) {
+//            TrelloBoardProjectinfoListDTO.setSuccessful(false);
+//            TrelloBoardProjectinfoListDTO.setresponseMsg("invalid credential");
+//            return TrelloBoardProjectinfoListDTO;
+//        }
+//        TrelloBoardProjectinfoListDTO.setSuccessful(true);
+//        TrelloBoardProjectinfoListDTO.setresponseMsg("success");
+//        return TrelloBoardProjectinfoListDTO;
+        return true;
+    }
+
+
 }

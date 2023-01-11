@@ -7,29 +7,29 @@
     </td>
     <td align="right">
       <div>
-        <button mat-raised-button extended (click)="createNewList()">新增清單</button>
+        <button mat-raised-button extended (click)="createNewList()">新增LIST</button>
       </div>
     </td>
   </table>
 </div>
 
 
-<div>
-  <ng-container *ngFor="let board_item of board">
+<div style="position:relative ; top: 50px;">
+  <ng-container *ngFor="let board_item of lists">
     <div class="myButton" style="display: inline; border-bottom: #0b2e13 solid; padding-bottom: 10px">
-      <button class={{ListTrackButton}} (click)="getListTrack()">{{board_item.list_name}}</button>
-      <button class={{ListTrackButton}} (click)="createNewCard(board_item.list_ID)">新增卡片</button>
-      <button class={{ListTrackButton}} (click)="archiveList(board_item.list_ID)">封存列表</button>
+      <button class={{ListTrackButton}} (click)="getListTrack()">{{board_item.listName}}</button>
+      <button class={{ListTrackButton}} (click)="createNewCard(board_item.listId)">新增卡片</button>
+      <button class={{ListTrackButton}} (click)="archiveList(board_item.listId)">封存列表</button>
 
     </div>
     <mat-accordion class="example-headers-align">
-      <ng-container *ngFor="let list_item of board_item.list_data">
+      <ng-container *ngFor="let list_item of board_item.cards">
         <mat-expansion-panel class="mainPanel" hideToggle>
           <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
 
             <mat-panel-title>
               <tr style="width: 100%">
-                <p style="width: 90%; word-wrap: break-word;">{{list_item.card_title}}</p>
+                <p style="width: 90%; word-wrap: break-word;">{{list_item.cardName}}</p>
               </tr>
             </mat-panel-title>
 
@@ -42,11 +42,11 @@
           <br>
           <br>
           <div class="issue_content">
-            <p>Content: <span>{{list_item.card_content}}</span></p>
+            <p>Content: <span>{{list_item.cardDescription}}</span></p>
             <table width="95%">
               <tr>
                 <td align="right">
-                  <button mat-raised-button color="primary" extended (click)="deleteCard(list_item.card_id)">刪除卡片</button>
+                  <button mat-raised-button color="primary" extended (click)="deleteCard(list_item.cardId)">刪除卡片</button>
                 </td>
               </tr>
             </table>

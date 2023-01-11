@@ -23,6 +23,8 @@ export class ChooseProjectComponent implements OnInit {
   item:any;
   totalProject:any;
   UserID = '';
+
+  BoardID = '';
   ChosenProjectID = '';
 
   ProjectID = '';
@@ -34,7 +36,7 @@ export class ChooseProjectComponent implements OnInit {
   githubUrl = new Array();
   githubUrlDatas: any;
 
-  constructor(private router: Router, private getrepoinfoofchosenproject: GetRepoInfoOfChosenProjectService, private getProjectInfoService: GetProjectInfoService, private getTrelloInfoService: GetTrelloInfoService, private delProjectService: DeleteProjectService, private activerouter:ActivatedRoute, private delTrelloBoardProjectProjectService: DeleteTrelloBoardProjectService ) {}
+  constructor(private router: Router, private getrepoinfoofchosenproject: GetRepoInfoOfChosenProjectService, private getProjectInfoService: GetProjectInfoService, private getTrelloInfoService: GetTrelloInfoService, private delProjectService: DeleteProjectService, private activerouter:ActivatedRoute, private delTrelloBoardProjectProjectService: DeleteTrelloBoardProjectService, private GetTrelloInfoService: GetTrelloInfoService) {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -124,6 +126,41 @@ export class ChooseProjectComponent implements OnInit {
           sessionStorage.setItem('owner', this.owner[0]);
         }
         this.router.navigate(['project-analysis']);
+      }
+    );
+  }
+  choose_trello_board(projectid, projectName, projectDescription, boardId) {
+    console.log(projectid);
+    sessionStorage.setItem('ChosenProjectID', projectid);
+    sessionStorage.setItem('projectName', projectName);
+    sessionStorage.setItem('projectIntroduction', projectDescription);
+    sessionStorage.setItem('boardId', boardId);
+    console.log("chosen board:",projectName)
+
+    this.ProjectID = window.sessionStorage.getItem('ChosenProjectID');
+    this.BoardID = window.sessionStorage.getItem('boardId');
+    const UserBoardData = {
+      userId:undefined,
+      boardId:undefined,
+    };
+    UserBoardData.userId  = this.UserID;
+    UserBoardData.boardId  = this.BoardID;
+
+    const Boarddata = JSON.stringify(UserBoardData);
+    console.log(Boarddata);
+    this.GetTrelloInfoService.getUserTrelloDetail(Boarddata).subscribe(
+      request => {
+        this.repo_datas = request;
+        console.log(this.repo_datas);
+        // for(let item of this.repo_datas){
+        //   this.repoNames.push(item.repoName);
+        //   this.owner.push(item.ownerName);
+        //
+        //   console.log(this.repoNames);
+        //   console.log(this.owner);
+        //
+        // }
+        this.router.navigate(['trelloBoard']);
       }
     );
   }
