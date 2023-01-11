@@ -13,6 +13,7 @@ import dto.CreateTrelloBoardProjectServletDTO;
 
 import dto.TrelloBoardProjectinfoDTO;
 import dto.TrelloBoardProjectinfoListDTO;
+import dto.TrelloDetailnfoDTO;
 import org.json.JSONObject;
 
 import usecase.account.AccountRepository;
@@ -64,6 +65,7 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
 
             createTrelloBoardProject(requestDto.getUserID(), requestDto.getBoardName(), requestDto.getDescription(), BoardID);
             addCredentialstoUser(requestDto.getUserID(), requestDto.getUserKey(), requestDto.getUserToken());
+            showTrelloDetail(BoardID, requestDto.getUserKey(), requestDto.getUserToken());
             isSuccessful = true;
             response_status = getTrelloBoardInfoList.getresponseMsg();
         } catch (CreateTrelloProjectException e) {
@@ -134,5 +136,17 @@ public class CreateTrelloBoardProjectServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new CreateTrelloProjectException("update user credentials fail.");
         }
+    }
+
+    private TrelloDetailnfoDTO showTrelloDetail(String BoardID,String UserKey, String UserToken)throws CreateTrelloProjectException{
+        TrelloAccessor TrelloAccessor = new TrelloAccessorImpl();
+        TrelloDetailnfoDTO TrelloDetailnfoDTO = new TrelloDetailnfoDTO();
+        TrelloDetailnfoDTO = TrelloAccessor.getTrelloDetailInfo(BoardID, UserKey, UserToken);
+        if(!TrelloDetailnfoDTO.isSuccessful()){
+            System.out.println("cannot get info");
+            throw new CreateTrelloProjectException("cannot get info");
+        }
+        System.out.println("get info");
+        return TrelloDetailnfoDTO;
     }
 }

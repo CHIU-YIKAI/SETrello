@@ -33,7 +33,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Account getAccountById(String id) {
-        final String query = " SELECT name, account, password FROM user WHERE user_id=?";
+        final String query = " SELECT name, account, password, trelloKey, trelloToken FROM user WHERE user_id=?";
         Account account;
         try {
             assert conn != null;
@@ -46,10 +46,15 @@ public class AccountRepositoryImpl implements AccountRepository {
                     id,
                     resultSet.getString("name"),
                     resultSet.getString("account"),
-                    resultSet.getString("password")
+                    resultSet.getString("password"),
+                    resultSet.getString("trelloKey"),
+                    resultSet.getString("trelloToken")
             );
             for (String projectId : getAccountProjects(id)) {
                 account.addProject(projectId);
+            }
+            for (String TrelloBoardprojectId : getAccountTrelloBoardProjects(id)) {
+                account.addTrelloBoardProject(TrelloBoardprojectId);
             }
             return account;
         } catch (Exception e) {
@@ -237,6 +242,26 @@ public class AccountRepositoryImpl implements AccountRepository {
             e.printStackTrace();
         }
         return projects;
+
+    }
+    private List<String> getAccountTrelloBoardProjects(String id) {
+        final String query = " SELECT trelloProjectID FROM trelloproject WHERE userID=? ";
+        List<String> trelloProject = new ArrayList<>();
+        Account queryAccount = null;
+        try {
+            ResultSet resultSet;
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.first()) return trelloProject;
+            do {
+                trelloProject.add(resultSet.getString("trelloProjectID"));
+            }
+            while (resultSet.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trelloProject;
 
     }
 

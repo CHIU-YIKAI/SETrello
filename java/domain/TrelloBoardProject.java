@@ -6,23 +6,33 @@ public class TrelloBoardProject {
     private String id;
     private String BoardName;
     private String description;
-
+    private String startTime;
     private String UserID;
     private String BoardID;
-    public TrelloBoardProject(String UserID, String BoardName, String description, String BoardID) {
+
+    public TrelloBoardProject(String UserID, String BoardName, String description, String BoardID){
         this.id = UUID.randomUUID().toString();
         this.UserID = UserID;
         this.BoardName = BoardName;
         this.description = description;
         this.BoardID = BoardID;
     }
+    public TrelloBoardProject(String UserID, String BoardName, String description, String BoardID, String startTime ){
+        this.id = UUID.randomUUID().toString();
+        this.UserID = UserID;
+        this.BoardName = BoardName;
+        this.description = description;
+        this.BoardID = BoardID;
+        this.startTime = startTime;
+    }
 
-    public TrelloBoardProject(String id, String UserID, String BoardName, String description, String BoardID){
+    public TrelloBoardProject(String id, String UserID, String BoardName, String description, String BoardID, String startTime){
         this.id = id;
         this.UserID = UserID;
         this.BoardName = BoardName;
         this.description = description;
         this.BoardID = BoardID;
+        this.startTime = startTime;
     }
 
     public String getID() {
@@ -61,5 +71,13 @@ public class TrelloBoardProject {
 
     public void setBoardID(String BoardID) {
         this.BoardID = BoardID;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
     }
 }

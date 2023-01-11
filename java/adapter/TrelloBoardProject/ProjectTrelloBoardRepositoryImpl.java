@@ -36,7 +36,7 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
 
     @Override
     public void deleteTrelloBoardProject(String BoardID) throws SQLException {
-        final String delete = "DELETE FROM trelloproject WHERE trelloBoardID=?";
+        final String delete = "DELETE FROM trelloproject WHERE trelloProjectID=?";
 
             assert conn != null;
             PreparedStatement preparedStatement = conn.prepareStatement(delete);
@@ -46,7 +46,7 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
     }
     @Override
     public TrelloBoardProject getTrelloBoardProjectByTrelloBoardProjectId(String id) {
-        final String query = "SELECT trelloProjectID,BoardName,description, trelloBoardID, UserID FROM trelloproject WHERE  trelloProjectID = ?";
+        final String query = "SELECT trelloProjectID,BoardName,description, trelloBoardID, UserID, starttime FROM trelloproject WHERE  trelloProjectID = ?";
 
         try {
             assert conn != null;
@@ -60,13 +60,15 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
             String description = resultSet.getString("description");
             String UserID = resultSet.getString("UserID");
             String trelloBoardID = resultSet.getString("trelloBoardID");
+            String starttime = resultSet.getString("starttime");
 
             TrelloBoardProject TrelloBoardProject = new TrelloBoardProject(
                     trelloProjectID,
                     UserID,
                     BoardName,
                     description,
-                    trelloBoardID
+                    trelloBoardID,
+                    starttime
             );
 
             return TrelloBoardProject;
@@ -78,7 +80,7 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
 
     @Override
     public TrelloBoardProject getTrelloBoardProjectByBoardId(String BoardID) {
-        final String query = "SELECT trelloProjectID,BoardName,description, trelloBoardID, UserID FROM trelloproject WHERE  trelloBoardID = ?";
+        final String query = "SELECT trelloProjectID,BoardName,description, trelloBoardID, UserID, starttime FROM trelloproject WHERE  trelloBoardID = ?";
 
 
         try {
@@ -93,13 +95,15 @@ public class ProjectTrelloBoardRepositoryImpl implements TrelloBoardProjectRepos
             String description = resultSet.getString("description");
             String UserID = resultSet.getString("UserID");
             String trelloBoardID = resultSet.getString("trelloBoardID");
+            String starttime = resultSet.getString("starttime");
 
             TrelloBoardProject TrelloBoardProject = new TrelloBoardProject(
                     trelloProjectID,
                     UserID,
                     BoardName,
                     description,
-                    trelloBoardID
+                    trelloBoardID,
+                    starttime
             );
 
             return TrelloBoardProject;
